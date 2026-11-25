@@ -1,34 +1,69 @@
 
 import tkinter as tk
 
-# Função para adicionar números ao visor
-def digitar(valor):
-    visor.insert(tk.END, valor)
+# Função para digitar no visor
+def digitar(caracter):
+    visor.insert(tk.END, caracter)
+
+# Função para apagar o último caractere
+def digitar_del():
+    texto = visor.get()
+
+    if texto != "":
+        visor.delete(len(texto) - 1, tk.END)
 
 # Função para limpar o visor
 def limpar():
     visor.delete(0, tk.END)
 
-# Função para somar
-def somar():
-    try:
-        numeros = visor.get().split("+")
-        n1 = float(numeros[0])
-        n2 = float(numeros[1])
+# Função para calcular
+def digitar_igual():
+    conta = visor.get()
 
-        resultado = n1 + n2
+    try:
+        if "+" in conta:
+            numeros = conta.split("+")
+            n1 = float(numeros[0])
+            n2 = float(numeros[1])
+            resultado = n1 + n2
+
+        elif "-" in conta:
+            numeros = conta.split("-")
+            n1 = float(numeros[0])
+            n2 = float(numeros[1])
+            resultado = n1 - n2
+
+        elif "*" in conta:
+            numeros = conta.split("*")
+            n1 = float(numeros[0])
+            n2 = float(numeros[1])
+            resultado = n1 * n2
+
+        elif "/" in conta:
+            numeros = conta.split("/")
+            n1 = float(numeros[0])
+            n2 = float(numeros[1])
+            resultado = n1 / n2
+
+        else:
+            return
 
         visor.delete(0, tk.END)
-        visor.insert(0, str(resultado))
+        visor.insert(0, resultado)
+
+    except ZeroDivisionError:
+        limpar()
+        visor.insert(0, "Divisão por zero")
 
     except (ValueError, IndexError):
-        visor.delete(0, tk.END)
+        limpar()
         visor.insert(0, "Erro")
 
-# Criar janela principal
+
+# Cria a janela
 janela = tk.Tk()
 janela.title("Calculadora")
-janela.geometry("250x300")
+janela.resizable(False, False)
 
 # Criar visor
 visor = tk.Entry(
@@ -37,103 +72,67 @@ visor = tk.Entry(
     justify="right",
     font=("Arial", 16)
 )
-visor.grid(row=0, column=0, columnspan=3, padx=2, pady=10)
 
-botao_0 = tk.Button(
-    janela, text="1", width=6,
-    command=lambda: digitar("1")
-)
-botao_0.grid(row=5, column=0,columnspan=3, padx=2, pady=2)
+visor.grid(row=0, column=0, columnspan=4,
+        padx=0, pady=5, ipady=15, sticky="ew")
 
+# Primeira linha
+botao_c = tk.Button(janela, text="C", width=8, height=3, command=limpar)
+botao_c.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
 
-botao_1 = tk.Button(
-    janela, text="1", width=6,
-    command=lambda: digitar("1")
-)
-botao_1.grid(row=4, column=0, padx=2, pady=2)
+botao_del = tk.Button(janela, text="⌫", width=8, height=3, command=digitar_del)
+botao_del.grid(row=1, column=1, padx=0, pady=0, sticky="nsew")
 
-botao_2 = tk.Button(
-    janela, text="2", width=6,
-    command=lambda: digitar("2")
-)
-botao_2.grid(row=4, column=0, padx=2, pady=2)
+botao_dividir = tk.Button(janela, text="/", width=8, height=3, command=lambda: digitar("/"))
+botao_dividir.grid(row=1, column=2, padx=0, pady=0, sticky="nsew")
 
-botao_3 = tk.Button(
-    janela, text="3", width=6,
-    command=lambda: digitar("3")
-)
-botao_3.grid(row=4, column=, padx=2, pady=2)
+botao_vezes = tk.Button(janela, text="x", width=8, height=3, command=lambda: digitar("*"))
+botao_vezes.grid(row=1, column=3, padx=0, pady=0, sticky="nsew")
 
+# Segunda linha
+botao_7 = tk.Button(janela, text="7", width=8, height=3, command=lambda: digitar("7"))
+botao_7.grid(row=2, column=0, padx=0, pady=0, sticky="nsew")
 
+botao_8 = tk.Button(janela, text="8", width=8, height=3, command=lambda: digitar("8"))
+botao_8.grid(row=2, column=1, padx=0, pady=0, sticky="nsew")
 
+botao_9 = tk.Button(janela, text="9", width=8, height=3, command=lambda: digitar("9"))
+botao_9.grid(row=2, column=2, padx=0, pady=0, sticky="nsew")
 
-botao_4 = tk.Button(
-    janela, text="4", width=3,
-    command=lambda: digitar("4")
-)
-botao_4.grid(row=3, column=1, padx=2, pady=2)
+botao_menos = tk.Button(janela, text="-", width=8, height=3, command=lambda: digitar("-"))
+botao_menos.grid(row=2, column=3, padx=0, pady=0, sticky="nsew")
 
-botao_5 = tk.Button(
-    janela, text="5", width=3,
-    command=lambda: digitar("5")
-)
-botao_5.grid(row=3, column=2, padx=2, pady=2)
+# Terceira linha
+botao_4 = tk.Button(janela, text="4", width=8, height=3, command=lambda: digitar("4"))
+botao_4.grid(row=3, column=0, padx=0, pady=0, sticky="nsew")
 
-botao_6 = tk.Button(
-    janela, text="6", width=3,
-    command=lambda: digitar("6")
-)
-botao_6.grid(row=3, column=3, padx=2, pady=2)
+botao_5 = tk.Button(janela, text="5", width=8, height=3, command=lambda: digitar("5"))
+botao_5.grid(row=3, column=1, padx=0, pady=0, sticky="nsew")
 
+botao_6 = tk.Button(janela, text="6", width=8, height=3, command=lambda: digitar("6"))
+botao_6.grid(row=3, column=2, padx=0, pady=0, sticky="nsew")
 
+botao_mais = tk.Button(janela, text="+", width=8, height=3, command=lambda: digitar("+"))
+botao_mais.grid(row=3, column=3, padx=0, pady=0, sticky="nsew")
 
+# Quarta linha
+botao_1 = tk.Button(janela, text="1", width=8, height=3, command=lambda: digitar("1"))
+botao_1.grid(row=4, column=0, padx=0, pady=0, sticky="nsew")
 
-botao_7 = tk.Button(
-    janela, text="7", width=3,
-    command=lambda: digitar("7")
-)
-botao_7.grid(row=2, column=1, padx=2, pady=2)
+botao_2 = tk.Button(janela, text="2", width=8, height=3, command=lambda: digitar("2"))
+botao_2.grid(row=4, column=1, padx=0, pady=0, sticky="nsew")
 
-botao_8 = tk.Button(
-    janela, text="8", width=3,
-    command=lambda: digitar("8")
-)
-botao_8.grid(row=2, column=2, padx=2, pady=2)
+botao_3 = tk.Button(janela, text="3", width=8, height=3, command=lambda: digitar("3"))
+botao_3.grid(row=4, column=2, padx=0, pady=0, sticky="nsew")
 
-botao_9 = tk.Button(
-    janela, text="9", width=3,
-    command=lambda: digitar("9")
-)
-botao_9.grid(row=2, column=3, padx=2, pady=2)
+botao_igual = tk.Button(janela, text="=", width=8, command=digitar_igual)
+botao_igual.grid(row=4, column=3, rowspan=2, padx=0, pady=0, sticky="nsew")
 
+# Quinta linha
+botao_0 = tk.Button(janela, text="0", height=3, command=lambda: digitar("0"))
+botao_0.grid(row=5, column=0, columnspan=2, padx=0, pady=0, sticky="nsew")
 
+botao_ponto = tk.Button(janela, text=".", width=8, height=3, command=lambda: digitar("."))
+botao_ponto.grid(row=5, column=2, padx=0, pady=0, sticky="nsew")
 
-
-
-
-
-
-
-# Botões de operação
-botao_mais = tk.Button(
-    janela, text="+", width=6,
-    command=lambda: digitar("+")
-)
-botao_mais.grid(row=3, column=4, padx=2, pady=2)
-
-botao_c = tk.Button(
-    janela, text="C", width=6,
-    command=limpar
-)
-botao_c.grid(row=1, column=1, padx=2, pady=2)
-
-botao_igual = tk.Button(
-    janela, text="=", width=6,
-    command=somar
-)
-botao_igual.grid(row=5, column=4, padx=2, pady=10)
-
-
-
-# Manter janela aberta
 janela.mainloop()
