@@ -1,4 +1,3 @@
-
 import tkinter as tk
 
 # Função para digitar no visor
@@ -20,44 +19,38 @@ def limpar():
 def digitar_igual():
     conta = visor.get()
 
-    try:
-        if "+" in conta:
-            numeros = conta.split("+")
-            n1 = float(numeros[0])
-            n2 = float(numeros[1])
-            resultado = n1 + n2
+    if "+" in conta:
+        numeros = conta.split("+")
+        n1 = float(numeros[0])
+        n2 = float(numeros[1])
+        resultado = n1 + n2
 
-        elif "-" in conta:
-            numeros = conta.split("-")
-            n1 = float(numeros[0])
-            n2 = float(numeros[1])
-            resultado = n1 - n2
+    elif "-" in conta:
+        numeros = conta.split("-")
+        n1 = float(numeros[0])
+        n2 = float(numeros[1])
+        resultado = n1 - n2
 
-        elif "*" in conta:
-            numeros = conta.split("*")
-            n1 = float(numeros[0])
-            n2 = float(numeros[1])
-            resultado = n1 * n2
+    elif "*" in conta:
+        numeros = conta.split("*")
+        n1 = float(numeros[0])
+        n2 = float(numeros[1])
+        resultado = n1 * n2
 
-        elif "/" in conta:
-            numeros = conta.split("/")
-            n1 = float(numeros[0])
-            n2 = float(numeros[1])
-            resultado = n1 / n2
+    elif "/" in conta:
+        numeros = conta.split("/")
+        n1 = float(numeros[0])
+        n2 = float(numeros[1])
+        resultado = n1 / n2
+        
+    else:
+        return
 
-        else:
-            return
+    if resultado.is_integer():
+        resultado = int(resultado)
 
-        visor.delete(0, tk.END)
-        visor.insert(0, resultado)
-
-    except ZeroDivisionError:
-        limpar()
-        visor.insert(0, "Divisão por zero")
-
-    except (ValueError, IndexError):
-        limpar()
-        visor.insert(0, "Erro")
+    visor.delete(0, tk.END)
+    visor.insert(0, resultado)
 
 
 # Cria a janela
